@@ -408,28 +408,28 @@ class question_type {
 
         // Insert question subject, topic, subtopic and difficulty level
         // in the database.
-        if(!property_exists($question, 'shared')) {
-            $question->shared = 0;
+        if(!property_exists($form, 'shared')) {
+            $form->shared = 0;
         };
         $question_filters = $DB->get_record('question_filters', array('questionid' => $question->id));
         if(!$question_filters) {
             $question_filters = new stdClass();
-            $question_filters->questionid = $question->id;
-            $question_filters->difficulty = $question->difficulty;
-            $question_filters->topic = $question->topic;
-            $question_filters->subtopic = $question->subtopic;
-            $question_filters->subject = $question->subject;
-            $question_filters->shared = $question->shared;
+            $question_filters->questionid = $form->id;
+            $question_filters->difficulty = $form->difficulty;
+            $question_filters->topic = $form->topic;
+            $question_filters->subtopic = $form->subtopic;
+            $question_filters->subject = $form->subject;
+            $question_filters->shared = $form->shared;
             $question_filters->userid = $USER->id;
             $question_filters->usagecount = 0;
             $id = $DB->insert_record('question_filters', $question_filters);
         } else {
-            $question_filters->questionid = $question->id;
-            $question_filters->difficulty = $question->difficulty;
-            $question_filters->topic = $question->topic;
-            $question_filters->subtopic = $question->subtopic;
-            $question_filters->subject = $question->subject;
-            $question_filters->shared = $question->shared;
+            $question_filters->questionid = $form->id;
+            $question_filters->difficulty = $form->difficulty;
+            $question_filters->topic = $form->topic;
+            $question_filters->subtopic = $form->subtopic;
+            $question_filters->subject = $form->subject;
+            $question_filters->shared = $form->shared;
             $question_filters->userid = $USER->id;
             $question_filters->usagecount = 0;
             $DB->update_record('question_filters', $question_filters);
