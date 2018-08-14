@@ -198,38 +198,42 @@ abstract class question_edit_form extends question_wizard_form {
         $mform->setType('generalfeedback', PARAM_RAW);
         $mform->addHelpButton('generalfeedback', 'generalfeedback', 'question');
 
-        $subjects = array(
-            'Physics',
-            'chemistry',
-            'Maths',
-            'English',
-            'Biology',
+        $searchareas = $DB->get_records('difficulty', array());
+        $areanames = array();
+        $areanames[0] = 'Select Difficulty';
+        foreach ($searchareas as $areaid => $searcharea) {
+            $areanames[$areaid] = $searcharea->level;
+        }
+        $options = array(
         );
-        $topics = array(
-            'Mechanics',
-            'Optics',
-            'Electrical',
+        $mform->addElement('autocomplete', 'difficulty', 'Difficulty', $areanames, $options);
+        $searchareas = $DB->get_records('topic', array());
+        $areanames = array();
+        $areanames[0] = 'Select Topic';
+        foreach ($searchareas as $areaid => $searcharea) {
+            $areanames[$areaid] = $searcharea->type;
+        }
+        $options = array(
         );
-        $subtopics = array(
-            'Newton Laws',
-            'Friction',
-            'Energy',
-            'Rotation',
+        $mform->addElement('autocomplete', 'topic', 'Topic', $areanames, $options);
+        $searchareas = $DB->get_records('subtopic', array());
+        $areanames = array();
+        $areanames[0] = 'Select Sub-Topic';
+        foreach ($searchareas as $areaid => $searcharea) {
+            $areanames[$areaid] = $searcharea->type;
+        }
+        $options = array(
         );
-        $difficulty = array(
-            'Easy',
-            'Medium',
-            'Hard',
+        $mform->addElement('autocomplete', 'subtopic', 'Sub-Topic', $areanames, $options);
+        $searchareas = $DB->get_records('subject', array());
+        $areanames = array();
+        $areanames[0] = 'Select Subject';
+        foreach ($searchareas as $areaid => $searcharea) {
+            $areanames[$areaid] = $searcharea->type;
+        }
+        $options = array(
         );
-        $mform->addElement('select', 'subtopic',
-                           'Subtopics', $subtopics);
-        $mform->addElement('select', 'subject',
-                           'Subject', $subjects);
-        $mform->addElement('select', 'topic',
-                           'Topic', $topics);
-        $mform->addElement('select', 'difficulty',
-                           'Difficulty', $difficulty);
-        $mform->addElement('checkbox', 'shared', 'Shared this question to everyone?');
+        $mform->addElement('autocomplete', 'subject', 'Subject', $areanames, $options);
         // Any questiontype specific fields.
         $this->definition_inner($mform);
 
