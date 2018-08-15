@@ -322,6 +322,7 @@ function question_edit_setup($edittab, $baseurl, $requirecmid = false, $unused =
     // Category list page.
     $params['cpage'] = optional_param('cpage', null, PARAM_INT);
     $params['qtagids'] = optional_param_array('qtagids', null, PARAM_INT);
+    $params['qsubjectids'] = optional_param_array('qsubjectids', null, PARAM_INT);
 
     $PAGE->set_pagelayout('admin');
 
@@ -371,7 +372,8 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
 
     $cleanparams = [
         'qsorts' => [],
-        'qtagids' => []
+        'qtagids' => [],
+        'qsubjectids' => [],
     ];
     $paramtypes = [
         'cmid' => PARAM_INT,
@@ -401,6 +403,10 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
         $cleanparams['qtagids'] = clean_param_array($params['qtagids'], PARAM_INT);
     }
 
+    if (!empty($params['qsubjectids'])) {
+        $cleanparams['qsubjectids'] = clean_param_array($params['qsubjectids'], PARAM_INT);
+    }
+
     $cmid = $cleanparams['cmid'];
     $courseid = $cleanparams['courseid'];
     $qpage = $cleanparams['qpage'] ?: -1;
@@ -416,6 +422,7 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
     $qbshowtext = $cleanparams['qbshowtext'];
     $qsorts = $cleanparams['qsorts'];
     $qtagids = $cleanparams['qtagids'];
+    $qsubjectids = $cleanparams['qsubjectids'];
 
     if (is_null($cmid) && is_null($courseid)) {
         throw new \moodle_exception('Must provide a cmid or courseid');
@@ -516,6 +523,11 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
     $pagevars['qtagids'] = $qtagids;
     foreach ($pagevars['qtagids'] as $index => $qtagid) {
         $thispageurl->param("qtagids[{$index}]", $qtagid);
+    }
+
+    $pagevars['qsubjectids'] = $qsubjectids;
+    foreach ($pagevars['qsubjectids'] as $index => $qsubjectid) {
+        $thispageurl->param("qsubjectids[{$index}]", $qsubjectid);
     }
 
     return array($thispageurl, $contexts, $cmid, $cm, $module, $pagevars);
