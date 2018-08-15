@@ -323,6 +323,9 @@ function question_edit_setup($edittab, $baseurl, $requirecmid = false, $unused =
     $params['cpage'] = optional_param('cpage', null, PARAM_INT);
     $params['qtagids'] = optional_param_array('qtagids', null, PARAM_INT);
     $params['qsubjectids'] = optional_param_array('qsubjectids', null, PARAM_INT);
+    $params['qtopicids'] = optional_param_array('qtopicids', null, PARAM_INT);
+    $params['qsubtopicids'] = optional_param_array('qsubtopicids', null, PARAM_INT);
+
 
     $PAGE->set_pagelayout('admin');
 
@@ -374,6 +377,8 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
         'qsorts' => [],
         'qtagids' => [],
         'qsubjectids' => [],
+        'qtopicids' => [],
+        'qsubtopicids' => [],
     ];
     $paramtypes = [
         'cmid' => PARAM_INT,
@@ -407,6 +412,13 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
         $cleanparams['qsubjectids'] = clean_param_array($params['qsubjectids'], PARAM_INT);
     }
 
+    if (!empty($params['qtopicids'])) {
+        $cleanparams['qtopicids'] = clean_param_array($params['qtopicids'], PARAM_INT);
+    }
+    if (!empty($params['qsubtopicids'])) {
+        $cleanparams['qsubtopicids'] = clean_param_array($params['qsubtopicids'], PARAM_INT);
+    }
+
     $cmid = $cleanparams['cmid'];
     $courseid = $cleanparams['courseid'];
     $qpage = $cleanparams['qpage'] ?: -1;
@@ -423,6 +435,8 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
     $qsorts = $cleanparams['qsorts'];
     $qtagids = $cleanparams['qtagids'];
     $qsubjectids = $cleanparams['qsubjectids'];
+    $qtopicids = $cleanparams['qtopicids'];
+    $qsubtopicids = $cleanparams['qsubtopicids'];
 
     if (is_null($cmid) && is_null($courseid)) {
         throw new \moodle_exception('Must provide a cmid or courseid');
@@ -529,6 +543,17 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
     foreach ($pagevars['qsubjectids'] as $index => $qsubjectid) {
         $thispageurl->param("qsubjectids[{$index}]", $qsubjectid);
     }
+
+    $pagevars['qtopicids'] = $qtopicids;
+    foreach ($pagevars['qtopicids'] as $index => $qtopicid) {
+        $thispageurl->param("qtopicids[{$index}]", $qtopicid);
+    }
+
+    $pagevars['qsubtopicids'] = $qsubtopicids;
+    foreach ($pagevars['qsubtopicids'] as $index => $qsubtopicid) {
+        $thispageurl->param("qsubtopicids[{$index}]", $qsubtopicid);
+    }
+
 
     return array($thispageurl, $contexts, $cmid, $cm, $module, $pagevars);
 }
