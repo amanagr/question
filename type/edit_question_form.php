@@ -207,6 +207,15 @@ abstract class question_edit_form extends question_wizard_form {
         $options = array(
         );
         $mform->addElement('autocomplete', 'difficulty', 'Difficulty', $areanames, $options);
+        $searchareas = $DB->get_records('subject', array());
+        $areanames = array();
+        $areanames[0] = 'Select Subject';
+        foreach ($searchareas as $areaid => $searcharea) {
+            $areanames[$areaid] = $searcharea->type;
+        }
+        $options = array(
+        );
+        $mform->addElement('autocomplete', 'subject', 'Subject', $areanames, $options);
         $searchareas = $DB->get_records('topic', array());
         $areanames = array();
         $areanames[0] = 'Select Topic';
@@ -225,15 +234,6 @@ abstract class question_edit_form extends question_wizard_form {
         $options = array(
         );
         $mform->addElement('autocomplete', 'subtopic', 'Sub-Topic', $areanames, $options);
-        $searchareas = $DB->get_records('subject', array());
-        $areanames = array();
-        $areanames[0] = 'Select Subject';
-        foreach ($searchareas as $areaid => $searcharea) {
-            $areanames[$areaid] = $searcharea->type;
-        }
-        $options = array(
-        );
-        $mform->addElement('autocomplete', 'subject', 'Subject', $areanames, $options);
         // Any questiontype specific fields.
         $this->definition_inner($mform);
 
