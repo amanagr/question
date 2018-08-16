@@ -551,6 +551,16 @@ abstract class question_edit_form extends question_wizard_form {
     }
 
     public function set_data($question) {
+        global $DB;
+        $question_filters = $DB->get_record('question_filters', array('questionid' => $question->id));
+        if($question_filters) {
+            $question->questionid = $question_filters->questionid;
+            $question->difficulty = $question_filters->difficulty;
+            $question->topic = $question_filters->topic;
+            $question->subtopic = $question_filters->subtopic;
+            $question->subject = $question_filters->subject;
+            $question->shared = $question_filters->shared;
+        }
         question_bank::get_qtype($question->qtype)->set_default_options($question);
 
         // Prepare question text.
