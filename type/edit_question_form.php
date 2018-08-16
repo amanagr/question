@@ -198,6 +198,8 @@ abstract class question_edit_form extends question_wizard_form {
         $mform->setType('generalfeedback', PARAM_RAW);
         $mform->addHelpButton('generalfeedback', 'generalfeedback', 'question');
 
+        $mform->addElement('checkbox', 'shared', 'Shared this question');
+
         $searchareas = $DB->get_records('difficulty', array());
         $areanames = array();
         $areanames[0] = 'Select Difficulty';
