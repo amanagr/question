@@ -205,7 +205,7 @@ abstract class question_edit_form extends question_wizard_form {
         $areanames[0] = 'Select Difficulty';
         foreach ($searchareas as $areaid => $searcharea) {
             $areanames[$areaid] = $searcharea->level;
-        }
+        };
         $options = array(
         );
         $mform->addElement('autocomplete', 'difficulty', 'Difficulty', $areanames, $options);
@@ -225,6 +225,7 @@ abstract class question_edit_form extends question_wizard_form {
             $areanames[$areaid] = $searcharea->type;
         }
         $options = array(
+            'ajax' => 'core_question/edit_question_topic_autocomplete',
         );
         $mform->addElement('autocomplete', 'topic', 'Topic', $areanames, $options);
         $searchareas = $DB->get_records('subtopic', array());
@@ -234,6 +235,7 @@ abstract class question_edit_form extends question_wizard_form {
             $areanames[$areaid] = $searcharea->type;
         }
         $options = array(
+            'ajax' => 'core_question/edit_question_topic_autocomplete',
         );
         $mform->addElement('autocomplete', 'subtopic', 'Sub-Topic', $areanames, $options);
         // Any questiontype specific fields.
@@ -554,14 +556,16 @@ abstract class question_edit_form extends question_wizard_form {
 
     public function set_data($question) {
         global $DB;
-        $question_filters = $DB->get_record('question_filters', array('questionid' => $question->id));
-        if($question_filters) {
-            $question->questionid = $question_filters->questionid;
-            $question->difficulty = $question_filters->difficulty;
-            $question->topic = $question_filters->topic;
-            $question->subtopic = $question_filters->subtopic;
-            $question->subject = $question_filters->subject;
-            $question->shared = $question_filters->shared;
+        if (!empty($question->id)) {
+            $question_filters = $DB->get_record('question_filters', array('questionid' => $question->id));
+            if($question_filters) {
+                $question->questionid = $question_filters->questionid;
+                $question->difficulty = $question_filters->difficulty;
+                $question->topic = $question_filters->topic;
+                $question->subtopic = $question_filters->subtopic;
+                $question->subject = $question_filters->subject;
+                $question->shared = $question_filters->shared;
+            };
         }
         question_bank::get_qtype($question->qtype)->set_default_options($question);
 

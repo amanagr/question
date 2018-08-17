@@ -783,7 +783,7 @@ class question_type {
     public function get_question_options($question) {
         global $CFG, $DB, $OUTPUT;
 
-        if(property_exists($question->options, 'questionid')) {
+        if(!empty($question->options) and property_exists($question->options, 'questionid')) {
             $question_filters = $DB->get_record('question_filters', array('questionid' => $question->id));
             $question->difficulty = $question_filters->difficulty;
             $question->topic = $question_filters->topic;
