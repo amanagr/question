@@ -319,13 +319,13 @@ function question_edit_setup($edittab, $baseurl, $requirecmid = false, $unused =
     $params['recurse'] = optional_param('recurse',    null, PARAM_BOOL);
     $params['showhidden'] = optional_param('showhidden', null, PARAM_BOOL);
     $params['qbshowtext'] = optional_param('qbshowtext', null, PARAM_BOOL);
+    $params['qbshowshared'] = optional_param('qbshowshared', null, PARAM_INT);
     // Category list page.
     $params['cpage'] = optional_param('cpage', null, PARAM_INT);
     $params['qtagids'] = optional_param_array('qtagids', null, PARAM_INT);
     $params['qsubjectids'] = optional_param_array('qsubjectids', null, PARAM_INT);
     $params['qtopicids'] = optional_param_array('qtopicids', null, PARAM_INT);
     $params['qsubtopicids'] = optional_param_array('qsubtopicids', null, PARAM_INT);
-
 
     $PAGE->set_pagelayout('admin');
 
@@ -393,7 +393,9 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
         'cpage' => PARAM_INT,
         'recurse' => PARAM_BOOL,
         'showhidden' => PARAM_BOOL,
-        'qbshowtext' => PARAM_BOOL
+        'qbshowtext' => PARAM_BOOL,
+        'qbshowshared' => PARAM_INT,
+        'qbshowshared' => PARAM_BOOL,
     ];
 
     foreach ($paramtypes as $name => $type) {
@@ -432,6 +434,7 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
     $recurse = $cleanparams['recurse'];
     $showhidden = $cleanparams['showhidden'];
     $qbshowtext = $cleanparams['qbshowtext'];
+    $qbshowshared = $cleanparams['qbshowshared'];
     $qsorts = $cleanparams['qsorts'];
     $qtagids = $cleanparams['qtagids'];
     $qsubjectids = $cleanparams['qsubjectids'];
@@ -527,6 +530,8 @@ function question_build_edit_resources($edittab, $baseurl, $params) {
     $pagevars['recurse']    = question_set_or_get_user_preference('recurse', $recurse, 1, $thispageurl);
     $pagevars['showhidden'] = question_set_or_get_user_preference('showhidden', $showhidden, 0, $thispageurl);
     $pagevars['qbshowtext'] = question_set_or_get_user_preference('qbshowtext', $qbshowtext, 0, $thispageurl);
+    $pagevars['qbshowshared'] = question_set_or_get_user_preference('qbshowshared', $qbshowshared, 0, $thispageurl);
+
 
     // Category list page.
     $pagevars['cpage'] = $cpage;
